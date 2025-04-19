@@ -1,4 +1,4 @@
-# LightingSOLID.WPF# LightingSOLID.WPF
+# LightingSOLID.WPF
 
 ## 概要
 LightingSOLID.WPF は、照明器具を題材にオブジェクト指向プログラミング (OOP) を学ぶための WPF アプリケーションです。このプロジェクトでは、実際の照明器具の特性をモデル化し、設計の中で GOF (Gang of Four) デザインパターンや SOLID 原則を意識した構造を採用しています。

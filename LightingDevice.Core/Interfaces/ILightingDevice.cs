@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LightingDevice.Core.Interfaces
+﻿namespace LightingDevice.Core.Interfaces
 {
     /// <summary>
     /// 古典的な電気照明器具を表すインターフェース
