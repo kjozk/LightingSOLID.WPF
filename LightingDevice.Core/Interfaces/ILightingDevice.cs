@@ -1,4 +1,6 @@
-﻿namespace LightingDevice.Core.Interfaces
+﻿using LightingDevice.Core.Models.Units;
+
+namespace LightingDevice.Core.Interfaces
 {
     /// <summary>
     /// 古典的な電気照明器具を表すインターフェース
@@ -29,7 +31,7 @@
         /// 現在の明るさ（ルーメン）
         /// 単位が分かるようにハンガリアン記法を用いた命名とする
         /// </summary>
-        int BrightnessLm { get; }
+        Lumen Brightness { get; }
 
         /// <summary>
         /// 現在の消費電力（ワット）
