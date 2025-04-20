@@ -23,7 +23,7 @@ namespace LightingDevice.Core.Models
         protected BasicLightingDevice(string name, Lumen brightness, double ratedPowerW, int colorTemperature)
         {
             Name = name;
-            _brightness = brightness;
+            _brightness = brightness.Clone();
             _ratedPowerW = ratedPowerW;
             ColorTemperature = colorTemperature;
             _maintenanceRate = 1.0; // 初期状態は新品

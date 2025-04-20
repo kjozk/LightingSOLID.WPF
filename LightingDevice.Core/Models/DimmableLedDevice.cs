@@ -18,7 +18,7 @@ namespace LightingDevice.Core.Models
         public DimmableLedDevice(string name, Lumen brightness, double powerConsumption = 5.0, int colorTemperature = 3000)
         {
             Name = name;
-            _brightness = brightness;
+            _brightness = brightness.Clone();
             _consumptionW = powerConsumption;
             _colorTemperature = colorTemperature;
             _isOn = false;
@@ -30,7 +30,7 @@ namespace LightingDevice.Core.Models
 
         public Lumen Brightness
         {
-            get => _isOn ? _brightness : new Lumen(0);
+            get => _isOn ? _brightness : Lumen.Zero;
         }
 
         protected Lumen MaxBrightness
@@ -85,13 +85,13 @@ namespace LightingDevice.Core.Models
 
         public void IncreaseBrightness()
         {
-            _brightness = new Lumen(Math.Clamp(_brightness.Value + 10, _minBrightness.Value, _maxBrightness.Value));
+            _brightness = (_brightness + 10).Clamp(_minBrightness.Value, _maxBrightness.Value);
             _consumptionW = CalculatePowerConsumption(_brightness.Value);
         }
 
         public void DecreaseBrightness()
         {
-            _brightness = new Lumen(Math.Clamp(_brightness.Value - 10, _minBrightness.Value, _maxBrightness.Value));
+            _brightness = (_brightness - 10).Clamp(_minBrightness.Value, _maxBrightness.Value);
             _consumptionW = CalculatePowerConsumption(_brightness.Value);
         }
     }
