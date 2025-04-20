@@ -1,4 +1,5 @@
 ﻿using LightingDevice.Core.Interfaces;
+using LightingDevice.Core.Models.Units;
 
 namespace LightingDevice.Core.Models
 {
@@ -8,16 +9,16 @@ namespace LightingDevice.Core.Models
     public abstract class DimmableLedDevice : IDimmable, ILightingDevice
     {
         private bool _isOn;
-        private int _brightness;
-        private int _maxBrightness = 500;
-        private int _minBrightness = 100;
+        private Lumen _brightness;
+        private Lumen _maxBrightness = new Lumen(500);
+        private Lumen _minBrightness = new Lumen(100);
         private double _consumptionW;
         private int _colorTemperature;
 
-        public DimmableLedDevice(string name, int brightness = 500, double powerConsumption = 5.0, int colorTemperature = 3000)
+        public DimmableLedDevice(string name, Lumen brightness, double powerConsumption = 5.0, int colorTemperature = 3000)
         {
             Name = name;
-            _brightness = brightness;
+            _brightness = brightness.Clone();
             _consumptionW = powerConsumption;
             _colorTemperature = colorTemperature;
             _isOn = false;
@@ -27,18 +28,18 @@ namespace LightingDevice.Core.Models
 
         public bool IsOn => _isOn;
 
-        public int BrightnessLm
+        public Lumen Brightness
         {
-            get => _isOn ? _brightness : 0;
+            get => _isOn ? _brightness : Lumen.Zero;
         }
 
-        protected int MaxBrightnessLm
+        protected Lumen MaxBrightness
         {
             get => _maxBrightness;
             set => _maxBrightness = value;
         }
 
-        protected int MinBrightnessLm
+        protected Lumen MinBrightness
         {
             get => _minBrightness;
             set => _minBrightness = value;
@@ -65,7 +66,6 @@ namespace LightingDevice.Core.Models
             if (!_isOn)
             {
                 _isOn = true;
-                Console.WriteLine($"{Name} is now ON.");
             }
         }
 
@@ -74,7 +74,6 @@ namespace LightingDevice.Core.Models
             if (_isOn)
             {
                 _isOn = false;
-                Console.WriteLine($"{Name} is now OFF.");
             }
         }
 
@@ -86,14 +85,14 @@ namespace LightingDevice.Core.Models
 
         public void IncreaseBrightness()
         {
-            _brightness = Math.Clamp(_brightness + 10, _minBrightness, _maxBrightness);
-            _consumptionW = CalculatePowerConsumption(_brightness);
+            _brightness = (_brightness + 10).Clamp(_minBrightness.Value, _maxBrightness.Value);
+            _consumptionW = CalculatePowerConsumption(_brightness.Value);
         }
 
         public void DecreaseBrightness()
         {
-            _brightness = Math.Clamp(_brightness - 10, _minBrightness, _maxBrightness);
-            _consumptionW = CalculatePowerConsumption(_brightness);
+            _brightness = (_brightness - 10).Clamp(_minBrightness.Value, _maxBrightness.Value);
+            _consumptionW = CalculatePowerConsumption(_brightness.Value);
         }
     }
 
@@ -103,10 +102,10 @@ namespace LightingDevice.Core.Models
     public class AnyDimmableLedDevice : DimmableLedDevice
     {
         public AnyDimmableLedDevice()
-            : base("調光LED XXXXX", 500, 5.0, 5000)
+            : base("調光LED XXXXX", new Lumen(500), 5.0, 5000)
         {
-            this.MaxBrightnessLm = 1000;
-            this.MinBrightnessLm = 100;
+            this.MaxBrightness = new Lumen(1000);
+            this.MinBrightness = new Lumen(100);
         }
     }
 }

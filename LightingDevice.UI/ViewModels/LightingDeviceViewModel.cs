@@ -26,7 +26,7 @@ namespace LightingDevice.UI.ViewModels
         private ILightingDevice _device = null!;
 
         public string PowerButtonText => _device?.IsOn == true ? "電源OFF" : "電源ON";
-        public string BrightnessText => $"{_device?.BrightnessLm.ToString("N0") ?? "0"} lm";
+        public string BrightnessText => _device?.Brightness.ToString() ?? "n/a";
         public string PowerText => $"{_device?.ConsumptionW.ToString("N1") ?? "0.0"} W";
         public string ColorTemperatureText => $"{_device?.ColorTemperature ?? 0} K";
         public bool IsSupportedBrightnessControl => _device is IDimmable;
@@ -109,14 +109,14 @@ namespace LightingDevice.UI.ViewModels
             }
         }
 
-            /// <summary>
-            /// 照明器具の明るさを減少させます。
-            /// </summary>
-            /// <remarks>
-            /// 調光機能を持つ照明器具（IDimmable）に対して、明るさを減少させる操作を行います。
-            /// 調光機能がサポートされていない場合、このメソッドは何も行いません。
-            /// </remarks>
-            public void DecreaseBrightness()
+        /// <summary>
+        /// 照明器具の明るさを減少させます。
+        /// </summary>
+        /// <remarks>
+        /// 調光機能を持つ照明器具（IDimmable）に対して、明るさを減少させる操作を行います。
+        /// 調光機能がサポートされていない場合、このメソッドは何も行いません。
+        /// </remarks>
+        public void DecreaseBrightness()
         {
             // 良い例：SOLID準拠
             // この実装は、抽象型（IDimmable）に依存しており、DIP（依存性逆転の原則）を満たしています。

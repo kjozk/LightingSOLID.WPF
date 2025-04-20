@@ -1,4 +1,5 @@
 ﻿using LightingDevice.Core.Interfaces;
+using LightingDevice.Core.Models.Units;
 
 namespace LightingDevice.Core.Models
 {
@@ -8,7 +9,7 @@ namespace LightingDevice.Core.Models
     public abstract class BasicLightingDevice : ILightingDevice
     {
         private bool _isOn;
-        private int _brightnessLm;
+        private Lumen _brightness;
         private double _ratedPowerW;
         private double _maintenanceRate;
 
@@ -19,10 +20,10 @@ namespace LightingDevice.Core.Models
         /// <param name="brightness">明るさ（ルーメン）</param>
         /// <param name="ratedPowerW">定格電力（ワット）</param>
         /// <param name="colorTemperature">色温度（ケルビン）</param>
-        protected BasicLightingDevice(string name, int brightness, double ratedPowerW, int colorTemperature)
+        protected BasicLightingDevice(string name, Lumen brightness, double ratedPowerW, int colorTemperature)
         {
             Name = name;
-            _brightnessLm = brightness;
+            _brightness = brightness.Clone();
             _ratedPowerW = ratedPowerW;
             ColorTemperature = colorTemperature;
             _maintenanceRate = 1.0; // 初期状態は新品
@@ -43,7 +44,7 @@ namespace LightingDevice.Core.Models
         /// 現在の明るさ（ルーメン）
         /// 点灯している場合は設定された明るさに保守率を掛けた値を返し、消灯している場合は 0 を返します。
         /// </summary>
-        public int BrightnessLm => _isOn ? (int)(_brightnessLm * _maintenanceRate) : 0;
+        public Lumen Brightness => new Lumen(_isOn ? (int)(_brightness.Value * _maintenanceRate) : 0);
 
         /// <summary>
         /// 現在の消費電力（ワット）
